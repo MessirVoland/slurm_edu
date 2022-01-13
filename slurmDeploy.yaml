@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dslurm-deploy
+  labels:
+    app: slurm-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slurm-app
+  template:
+    metadata:
+      labels:
+        app: slurm-app
+    spec:
+      containers:
+      - name: slurm-app
+        image: 109.120.180.31:5000/slurm
+        env:
+        - name: PORT
+          value: "5000"
+        - name: DB_HOST
+          value: "10.0.0.35"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          value: "user"
+        - name: DB_PASSWORD
+          value: "12345678910111213z"
+        - name: DB_NAME
+          value: "users"
+
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+      imagePullSecrets:
+      - name: myloginpass
+

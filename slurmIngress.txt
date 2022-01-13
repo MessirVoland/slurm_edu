@@ -1,0 +1,32 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docker-registry-ing
+  namespace: default
+  annotations:
+    cert-manager.io/clusterissuer: "letsencrypt-prod"
+    nginx.org/client-max-body-size: "0"
+    nginx.org/proxy-connect-timeout: 600s
+    nginx.org/proxy-read-timeout: 600s
+    nginx.ingress.kubernetes.io/proxy-body-size: 8000m
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - dockerhub.arora.pro
+    secretName: docker-cert-prod-tls
+  rules:
+  - host: example.host.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: slurm-svc
+            port:
+              number: 80
+
+
+
