@@ -41,7 +41,7 @@ spec:
         resources:
           limits:
             cpu: 500m
-            memory: 1Gi
+            memory: "256Mi"
       - name: clone-mysql
         image: gcr.io/google-samples/xtrabackup:1.0
         command:
@@ -68,7 +68,7 @@ spec:
         resources:
           limits:
             cpu: 500m
-            memory: 1Gi
+            memory: "256Mi"
       containers:
       - name: mysql
         image: mysql:5.7
@@ -87,10 +87,10 @@ spec:
         resources:
           requests:
             cpu: 500m
-            memory: 1Gi
+            memory: "256Mi"
           limits:
             cpu: 500m
-            memory: 1Gi
+            memory: "256Mi"
         livenessProbe:
           exec:
             command: ["mysqladmin", "ping"]
@@ -172,7 +172,7 @@ spec:
           name: mysql
   volumeClaimTemplates:
   - metadata:
-      name: data
+      name: mysql-storage  
     spec:
       accessModes: ["ReadWriteOnce"]
       resources:
